@@ -1,0 +1,238 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.login-shell {
+	background-image: radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.1), transparent 44%),
+		radial-gradient(circle at 78% 82%, rgba(255, 255, 255, 0.06), transparent 42%);
+}
+
+.login-grid {
+	position: absolute;
+	inset: 0;
+	background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+	background-size: 40px 40px;
+	mask-image: radial-gradient(circle at center, black 20%, transparent 78%);
+	opacity: 0.22;
+}
+
+.login-orb {
+	position: absolute;
+	width: 26rem;
+	height: 26rem;
+	border-radius: 9999px;
+	filter: blur(72px);
+	opacity: 0.3;
+	animation: loginFloat 9s ease-in-out infinite;
+}
+
+.login-orb-one {
+	top: -8rem;
+	left: -5rem;
+	background: rgba(255, 255, 255, 0.42);
+}
+
+.login-orb-two {
+	right: -4rem;
+	bottom: -10rem;
+	background: rgba(156, 163, 175, 0.45);
+	animation-delay: -4.5s;
+}
+
+.login-card {
+	animation: loginCardIn 650ms ease-out both;
+	box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+@keyframes loginFloat {
+	0%,
+	100% {
+		transform: translate3d(0, 0, 0) scale(1);
+	}
+	50% {
+		transform: translate3d(0, -16px, 0) scale(1.06);
+	}
+}
+
+@keyframes loginCardIn {
+	from {
+		opacity: 0;
+		transform: translateY(16px) scale(0.98);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.login-orb,
+	.login-card {
+		animation: none;
+	}
+}
+
+.lead-shell {
+	background-image: radial-gradient(circle at 14% 14%, rgba(255, 255, 255, 0.1), transparent 40%),
+		radial-gradient(circle at 84% 80%, rgba(255, 255, 255, 0.05), transparent 38%);
+}
+
+.lead-grid {
+	position: absolute;
+	inset: 0;
+	background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+	background-size: 44px 44px;
+	mask-image: radial-gradient(circle at center, black 18%, transparent 74%);
+	opacity: 0.2;
+}
+
+.lead-orb {
+	position: absolute;
+	width: 28rem;
+	height: 28rem;
+	border-radius: 9999px;
+	filter: blur(82px);
+	opacity: 0.3;
+	animation: leadFloat 10s ease-in-out infinite;
+}
+
+.lead-orb-one {
+	top: -9rem;
+	left: -8rem;
+	background: rgba(255, 255, 255, 0.4);
+}
+
+.lead-orb-two {
+	right: -7rem;
+	bottom: -11rem;
+	background: rgba(161, 161, 170, 0.46);
+	animation-delay: -5s;
+}
+
+.lead-card {
+	animation: leadCardIn 720ms ease-out both;
+	box-shadow: 0 32px 84px rgba(0, 0, 0, 0.58), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.lead-fit {
+	transform-origin: center;
+}
+
+@keyframes leadFloat {
+	0%,
+	100% {
+		transform: translate3d(0, 0, 0) scale(1);
+	}
+	50% {
+		transform: translate3d(0, -14px, 0) scale(1.05);
+	}
+}
+
+@keyframes leadCardIn {
+	from {
+		opacity: 0;
+		transform: translateY(18px) scale(0.98);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.lead-orb,
+	.lead-card {
+		animation: none;
+	}
+}
+
+@media (max-height: 920px) {
+	.lead-fit {
+		transform: scale(0.96);
+	}
+}
+
+@media (max-height: 840px) {
+	.lead-fit {
+		transform: scale(0.91);
+	}
+}
+
+@media (max-height: 760px) {
+	.lead-fit {
+		transform: scale(0.86);
+	}
+}
+
+.dashboard-shell {
+	background-image: radial-gradient(circle at 9% 12%, rgba(255, 255, 255, 0.08), transparent 40%),
+		radial-gradient(circle at 88% 82%, rgba(255, 255, 255, 0.05), transparent 36%);
+}
+
+.dashboard-grid {
+	position: absolute;
+	inset: 0;
+	background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+	background-size: 46px 46px;
+	mask-image: radial-gradient(circle at center, black 20%, transparent 76%);
+	opacity: 0.17;
+}
+
+.dashboard-orb {
+	position: absolute;
+	width: 30rem;
+	height: 30rem;
+	border-radius: 9999px;
+	filter: blur(88px);
+	opacity: 0.25;
+	animation: dashboardFloat 12s ease-in-out infinite;
+}
+
+.dashboard-orb-one {
+	top: -10rem;
+	left: -11rem;
+	background: rgba(255, 255, 255, 0.35);
+}
+
+.dashboard-orb-two {
+	right: -9rem;
+	bottom: -13rem;
+	background: rgba(161, 161, 170, 0.42);
+	animation-delay: -6s;
+}
+
+.dashboard-card {
+	animation: dashboardCardIn 520ms ease-out both;
+	box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+@keyframes dashboardFloat {
+	0%,
+	100% {
+		transform: translate3d(0, 0, 0) scale(1);
+	}
+	50% {
+		transform: translate3d(0, -18px, 0) scale(1.06);
+	}
+}
+
+@keyframes dashboardCardIn {
+	from {
+		opacity: 0;
+		transform: translateY(12px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.dashboard-orb,
+	.dashboard-card {
+		animation: none;
+	}
+}
