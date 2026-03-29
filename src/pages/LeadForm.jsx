@@ -15,7 +15,15 @@ export default function LeadForm() {
   const [msg, setMsg] = useState({ type: "", text: "" });
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    if (name === "phone") {
+      const phoneValue = value.replace(/\D/g, "").slice(0, 10);
+      setForm({ ...form, phone: phoneValue });
+      return;
+    }
+
+    setForm({ ...form, [name]: value });
   };
 
   const validate = () => {
@@ -25,6 +33,9 @@ export default function LeadForm() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(form.email)) {
       return "Invalid email format";
+    }
+    if (!/^\d{10}$/.test(form.phone)) {
+      return "Phone number must be exactly 10 digits";
     }
     return null;
   };
@@ -183,11 +194,14 @@ export default function LeadForm() {
                     </svg>
                   </span>
                   <input
-                    type="text"
+                    type="tel"
                     name="phone"
-                    placeholder="+91 00000 00000"
+                    placeholder="9876543210"
                     value={form.phone}
                     onChange={handleChange}
+                    inputMode="numeric"
+                    maxLength={10}
+                    pattern="[0-9]{10}"
                     className={`${inputClass} pl-10`}
                   />
                 </div>
