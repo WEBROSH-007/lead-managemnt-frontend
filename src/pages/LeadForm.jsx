@@ -18,8 +18,8 @@ export default function LeadForm() {
     const { name, value } = e.target;
 
     if (name === "phone") {
-      const phoneValue = value.replace(/\D/g, "").slice(0, 10);
-      setForm({ ...form, phone: phoneValue });
+      const digitsOnly = value.replace(/\D/g, "").slice(0, 10);
+      setForm({ ...form, phone: digitsOnly });
       return;
     }
 
@@ -194,7 +194,7 @@ export default function LeadForm() {
                     </svg>
                   </span>
                   <input
-                    type="tel"
+                    type="text"
                     name="phone"
                     placeholder="9876543210"
                     value={form.phone}
