@@ -7,16 +7,21 @@ import { useNavigate } from "react-router-dom";
 export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
+      setError("");
       const res = await API.post("/auth/login", form);
       setToken(res.data.token);
       navigate("/dashboard");
     } catch {
       setError("Invalid credentials");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -106,6 +111,7 @@ export default function Login() {
                 <input
                   type="email"
                   placeholder="you@example.com"
+                  disabled={loading}
                   className="w-full rounded-xl border border-white/15 bg-black/35 py-3 pl-10 pr-4 text-sm text-white placeholder-zinc-500 outline-none transition-all focus:border-white/55 focus:ring-2 focus:ring-white/15"
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
@@ -137,6 +143,7 @@ export default function Login() {
                 <input
                   type="password"
                   placeholder="••••••••"
+                  disabled={loading}
                   className="w-full rounded-xl border border-white/15 bg-black/35 py-3 pl-10 pr-4 text-sm text-white placeholder-zinc-500 outline-none transition-all focus:border-white/55 focus:ring-2 focus:ring-white/15"
                   value={form.password}
                   onChange={(e) =>
@@ -149,22 +156,50 @@ export default function Login() {
             {/* Submit */}
             <button
               type="submit"
-              className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl border border-white/30 bg-white/85 py-3 text-sm font-semibold text-black transition-all duration-200 hover:-translate-y-0.5 hover:bg-white active:scale-95"
+              disabled={loading}
+              className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl border border-white/30 bg-white/85 py-3 text-sm font-semibold text-black transition-all duration-200 hover:-translate-y-0.5 hover:bg-white disabled:cursor-not-allowed disabled:opacity-60 active:scale-95"
             >
-              Sign in
-              <svg
-                className="h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M13 7l5 5m0 0l-5 5m5-5H6"
-                />
-              </svg>
+              {loading ? (
+                <>
+                  <svg
+                    className="h-4 w-4 animate-spin"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v8z"
+                    />
+                  </svg>
+                  Signing in...
+                </>
+              ) : (
+                <>
+                  Sign in
+                  <svg
+                    className="h-4 w-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M13 7l5 5m0 0l-5 5m5-5H6"
+                    />
+                  </svg>
+                </>
+              )}
             </button>
 
             <p className="pt-1 text-center text-xs text-zinc-400/90">

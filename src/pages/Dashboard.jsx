@@ -7,23 +7,35 @@ export default function Dashboard() {
   const [leads, setLeads] = useState([]);
   const [search, setSearch] = useState("");
   const [course, setCourse] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [updatingId, setUpdatingId] = useState(null);
 
   useEffect(() => {
     const fetchLeads = async () => {
-      const res = await API.get("/leads", {
-        params: { search, course },
-      });
-      setLeads(res.data);
+      try {
+        setLoading(true);
+        const res = await API.get("/leads", {
+          params: { search, course },
+        });
+        setLeads(res.data);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchLeads();
   }, [search, course]);
 
   const updateStatus = async (id, status) => {
-    await API.put(`/leads/${id}`, { status });
-    const res = await API.get("/leads", {
-      params: { search, course },
-    });
-    setLeads(res.data);
+    try {
+      setUpdatingId(id);
+      await API.put(`/leads/${id}`, { status });
+      const res = await API.get("/leads", {
+        params: { search, course },
+      });
+      setLeads(res.data);
+    } finally {
+      setUpdatingId(null);
+    }
   };
 
   const totalLeads = leads.length;
@@ -106,6 +118,7 @@ export default function Dashboard() {
               <input
                 value={search}
                 placeholder="Search by name or email"
+                disabled={loading}
                 className="w-full rounded-xl border border-white/15 bg-black/35 py-2.5 pl-10 pr-4 text-sm text-white placeholder-zinc-500 outline-none transition-all focus:border-white/55 focus:ring-2 focus:ring-white/15"
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -114,6 +127,7 @@ export default function Dashboard() {
             <div className="relative">
               <select
                 value={course}
+                disabled={loading}
                 className="w-full cursor-pointer appearance-none rounded-xl border border-white/15 bg-black/35 py-2.5 pl-4 pr-10 text-sm text-white outline-none transition-all focus:border-white/55 focus:ring-2 focus:ring-white/15"
                 onChange={(e) => setCourse(e.target.value)}
               >
@@ -165,7 +179,16 @@ export default function Dashboard() {
               </thead>
 
               <tbody>
-                {leads.length === 0 ? (
+                {loading ? (
+                  <tr>
+                    <td
+                      className="px-4 py-8 text-center text-zinc-400"
+                      colSpan={6}
+                    >
+                      Loading leads...
+                    </td>
+                  </tr>
+                ) : leads.length === 0 ? (
                   <tr>
                     <td
                       className="px-4 py-8 text-center text-zinc-400"
@@ -207,10 +230,13 @@ export default function Dashboard() {
                       <td className="whitespace-nowrap px-4 py-3">
                         {lead.status === "new" ? (
                           <button
+                            disabled={updatingId === lead.id}
                             onClick={() => updateStatus(lead.id, "contacted")}
-                            className="rounded-lg border border-white/25 bg-white/90 px-3 py-1.5 text-xs font-semibold text-black transition-all hover:bg-white"
+                            className="rounded-lg border border-white/25 bg-white/90 px-3 py-1.5 text-xs font-semibold text-black transition-all hover:bg-white disabled:cursor-not-allowed disabled:opacity-60"
                           >
-                            Mark Contacted
+                            {updatingId === lead.id
+                              ? "Updating..."
+                              : "Mark Contacted"}
                           </button>
                         ) : (
                           <span className="text-xs text-zinc-500">Updated</span>
